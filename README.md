@@ -1,3 +1,3 @@
 # Workout-Generator-for-GYM
-![](Screenshot_2.png)
-![](Screenshot_1.png)
+![](gui/Screenshot_2.png)
+![](gui/Screenshot_1.png)
