@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>rsz_rf_logo_big (1).png</file>
+  </qresource>
+</RCC>

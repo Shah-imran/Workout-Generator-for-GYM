@@ -1,0 +1,11 @@
+{"config":
+    {
+        "ip": "127.0.0.1",
+        "port": 3306,
+        "db_user": "test",
+        "db_pass": "1234",
+        "db_name": "workout",
+        "admin_password": "1",
+        "printer_ip": "192.168.0.1"
+    }
+}

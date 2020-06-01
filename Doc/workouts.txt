@@ -1,0 +1,12 @@
+Preset 1,dsaf dsf sadf adsf,2,1,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,3,1,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,4,1,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,5,1,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,2,2,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,3,2,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,4,2,time,2,0,3
+Preset 1,dsaf dsf sadf adsf,5,2,time,2,0,3
+Preset 2,dsaf dsf sadf adsf,2,0,reps,0,15,3
+Preset 2,dsaf dsf sadf adsf,3,0,reps,0,15,3
+Preset 2,dsaf dsf sadf adsf,4,0,reps,0,15,3
+Preset 2,dsaf dsf sadf adsf,5,0,reps,0,15,3
