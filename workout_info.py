@@ -68,7 +68,7 @@ class Ui_Dialog(object):
                 time += (self.workout_time[count] * self.rounds[count])
 
 
-        left = """Calories: {}\nTotal Workout Time: {} min\n\n{}""".format(calories, time/60, self.info)
+        left = """Calories: {:.2f}\nTotal Workout Time: {:.2f} min\n\n{}""".format(calories, time/60, self.info)
         self.textBrowser_left.setText(_translate("Dialog", "{}".format(left)))
 
         right = """Exercises:\n\n"""

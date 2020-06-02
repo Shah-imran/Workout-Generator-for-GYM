@@ -543,7 +543,7 @@ class make_label():
                 time += (self.workout_time[count] * self.rounds[count])
 
 
-        left = """\n\nCalories burned: {}\nEstimated workout time: {} min\n\nYou Can Do It!""".format(calories, time/60)
+        left = """\n\nCalories burned: {:.2f}\nEstimated workout time: {:.2f} min\n\nYou Can Do It!""".format(calories, time/60)
 
         right = """W O R K O U T   G E N E R A T O R\n\nDate:{}\n\n\n""".format(datetime.datetime.today().strftime('%d-%m-%Y'))
         if len(set(self.sets)) > 1:
