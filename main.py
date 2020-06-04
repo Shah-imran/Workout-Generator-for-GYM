@@ -301,7 +301,8 @@ class myMainClass():
             else:
                 GUI.tableWidget_exercise.setColumnCount(3)
             GUI.label_table_1.setText("Exercise for: {}".format(GUI.comboBox_exercise.currentText()))
-            result = sorted(result, key=len)
+            # result = sorted(result, key=len)
+            result.sort()
 
             for row in range(0,len(result)):
                 GUI.tableWidget_exercise.setItem(row,0, QTableWidgetItem(str(result[row])))
@@ -592,9 +593,7 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
 
-    mainWindow.setWindowFlags(mainWindow.windowFlags() |
-                          QtCore.Qt.WindowMinimizeButtonHint |
-                          QtCore.Qt.WindowSystemMenuHint)
+    mainWindow.setWindowFlags(mainWindow.windowFlags() | QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowSystemMenuHint)
 
     GUI = MyGui(mainWindow)
     # mainWindow.showMaximized()

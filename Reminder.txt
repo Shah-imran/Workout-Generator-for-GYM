@@ -1,0 +1,15 @@
+https://www.youtube.com/watch?v=rKF5mYnp4Ww
+https://www.youtube.com/watch?v=CCx91-9LNpg
+https://www.beaglehardware.com/howtoethernet.html
+
+https://readthedocs.org/projects/python-escpos/downloads/pdf/latest/
+https://github.com/python-escpos/python-escpos
+https://github.com/python-escpos/python-escpos/blob/master/doc/user/usage.rst
+https://python-escpos.readthedocs.io/en/latest/user/usage.html
+
+https://pypi.org/project/escposprinter/
+
+https://pythonhosted.org/python-printer-escpos/index.html
+https://pypi.org/project/python-printer-escpos/
+
+https://github.com/receipt-print-hq/escpos-printer-db

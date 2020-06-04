@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui.ui'
+# Form implementation generated from reading ui file 'ui/gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1174, 755)
+        MainWindow.resize(1174, 764)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -49,6 +49,10 @@ class Ui_MainWindow(object):
         self.tableWidget_exercise.setFrameShadow(QtWidgets.QFrame.Plain)
         self.tableWidget_exercise.setLineWidth(0)
         self.tableWidget_exercise.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableWidget_exercise.setDragEnabled(False)
+        self.tableWidget_exercise.setDragDropOverwriteMode(False)
+        self.tableWidget_exercise.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.tableWidget_exercise.setDefaultDropAction(QtCore.Qt.IgnoreAction)
         self.tableWidget_exercise.setAlternatingRowColors(True)
         self.tableWidget_exercise.setShowGrid(False)
         self.tableWidget_exercise.setGridStyle(QtCore.Qt.NoPen)
@@ -144,7 +148,7 @@ class Ui_MainWindow(object):
         self.spinBox_print_labels.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(9)
+        font.setPointSize(11)
         self.spinBox_print_labels.setFont(font)
         self.spinBox_print_labels.setMinimum(1)
         self.spinBox_print_labels.setObjectName("spinBox_print_labels")
@@ -482,7 +486,7 @@ class Ui_MainWindow(object):
 "        );\n"
 "    }")
         self.pushButton_find.setObjectName("pushButton_find")
-        self.gridLayout.addWidget(self.pushButton_find, 17, 3, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_find, 17, 3, 1, 1, QtCore.Qt.AlignHCenter)
         self.comboBox_exercise = QtWidgets.QComboBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -592,20 +596,6 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName("groupBox")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.groupBox)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.spinBox_set = QtWidgets.QSpinBox(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.spinBox_set.sizePolicy().hasHeightForWidth())
-        self.spinBox_set.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily("Calibri")
-        font.setPointSize(9)
-        self.spinBox_set.setFont(font)
-        self.spinBox_set.setMinimum(1)
-        self.spinBox_set.setProperty("value", 1)
-        self.spinBox_set.setObjectName("spinBox_set")
-        self.gridLayout_3.addWidget(self.spinBox_set, 2, 3, 1, 1)
         self.label_9 = QtWidgets.QLabel(self.groupBox)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -673,6 +663,20 @@ class Ui_MainWindow(object):
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
         self.gridLayout_3.addWidget(self.label_10, 2, 4, 1, 1, QtCore.Qt.AlignRight)
+        self.spinBox_set = QtWidgets.QSpinBox(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.spinBox_set.sizePolicy().hasHeightForWidth())
+        self.spinBox_set.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(13)
+        self.spinBox_set.setFont(font)
+        self.spinBox_set.setMinimum(1)
+        self.spinBox_set.setProperty("value", 1)
+        self.spinBox_set.setObjectName("spinBox_set")
+        self.gridLayout_3.addWidget(self.spinBox_set, 2, 3, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 28, 2, 2, 3)
         self.pushButton_admin = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -736,7 +740,9 @@ class Ui_MainWindow(object):
         self.tableWidget_workout.setLineWidth(1)
         self.tableWidget_workout.setMidLineWidth(0)
         self.tableWidget_workout.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableWidget_workout.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
         self.tableWidget_workout.setAlternatingRowColors(False)
+        self.tableWidget_workout.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget_workout.setShowGrid(True)
         self.tableWidget_workout.setObjectName("tableWidget_workout")
         self.tableWidget_workout.setColumnCount(0)
@@ -746,6 +752,44 @@ class Ui_MainWindow(object):
         self.tableWidget_workout.horizontalHeader().setDefaultSectionSize(150)
         self.tableWidget_workout.verticalHeader().setVisible(False)
         self.gridLayout.addWidget(self.tableWidget_workout, 26, 2, 1, 3)
+        self.pushButton_about = QtWidgets.QPushButton(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_about.sizePolicy().hasHeightForWidth())
+        self.pushButton_about.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(9)
+        self.pushButton_about.setFont(font)
+        self.pushButton_about.setStyleSheet("QPushButton {\n"
+"    color: #1E1E1E;\n"
+"    border: 1px solid #555;\n"
+"    border-radius: 3px;\n"
+"    border-style: Solid;\n"
+"    background: qradialgradient(\n"
+"        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"        radius: 1.35, stop: 0 #e5e5e5, stop: 1 #79d70f\n"
+"        );\n"
+"    padding: 5px 28px;\n"
+"    }\n"
+"\n"
+"QPushButton:hover {\n"
+"    background: qradialgradient(\n"
+"        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"        radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+"        );\n"
+"    }\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-style: inset;\n"
+"    background: qradialgradient(\n"
+"        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"        radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+"        );\n"
+"    }")
+        self.pushButton_about.setObjectName("pushButton_about")
+        self.gridLayout.addWidget(self.pushButton_about, 0, 3, 1, 1, QtCore.Qt.AlignHCenter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -778,6 +822,7 @@ class Ui_MainWindow(object):
         self.pushButton_set_clear.setText(_translate("MainWindow", "Clear"))
         self.label_10.setText(_translate("MainWindow", "    Clear all exercises in this workout "))
         self.pushButton_admin.setText(_translate("MainWindow", "Admin"))
+        self.pushButton_about.setText(_translate("MainWindow", "About"))
 import logo_rc
 
 
