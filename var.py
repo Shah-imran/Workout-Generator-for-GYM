@@ -78,8 +78,6 @@ try:
     about = ""
     with open('about.txt', 'r', encoding='utf-8') as f:
         about = f.read()
-
-    about += "\n\nDeveloped By - Shah Imran\nSkype_id - shah_imran_sust@outlook.com"
 except Exception as e:
     print("Exeception occured at config loading:{}".format(e))
 # pyinstaller --onedir --icon=icons/exe.ico --noconfirm main.py
