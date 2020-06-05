@@ -75,5 +75,8 @@ try:
     db_name = config['db_name']
     admin_password = config['admin_password']
     printer_ip = config["printer_ip"]
+    about = ""
+    with open('about.txt', 'r', encoding='utf-8') as f:
+        about = f.read()
 except Exception as e:
     print("Exeception occured at config loading:{}".format(e))

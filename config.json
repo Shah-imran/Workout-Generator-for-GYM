@@ -1,11 +1,12 @@
-{"config":
-    {
+{
+    "config": {
         "ip": "127.0.0.1",
         "port": 3306,
         "db_user": "test",
         "db_pass": "1234",
         "db_name": "workout",
         "admin_password": "1",
-        "printer_ip": "192.168.178.52"
+        "printer_ip": "192.168.178.52",
+        "about": "Fugiat \nullamco laboris pariatur \nelit anim voluptate adipisicing ad aliquip. \nMollit culpa aute cillum fugiat incididunt id excepteur ad nostrud. Excepteur id amet sint consectetur qui sunt\n culpa id labore esse amet minim\n quis. Laboris commodo veniam duis \nullamco id dolore proident \ncillum. Deserunt do reprehenderit \nlaborum proident et laboris reprehenderit. \nOfficia elit sit et \nlaborum. Dolore amet elit\n nostrud eiusmod excepteur \nquis dolore ad excepteur est."
     }
 }

@@ -8,6 +8,7 @@ import add_to_workout as atw
 import workout_info as wi
 import add_exercise as ae
 import exercise_info as ei
+import about
 from pyautogui import alert, password, confirm
 import add_muscle as am
 import db
@@ -79,6 +80,10 @@ class myMainClass():
         GUI.pushButton_remove_muscle_groups.setIcon(
             QtGui.QIcon(var.delete_icon))
         GUI.pushButton_about.setIcon(QtGui.QIcon(var.about_icon))
+        GUI.pushButton_about.clicked.connect(self.about)
+
+    def about(self):
+        about.main()
 
     def remove_muscle_groups(self):
         rmg.main()
@@ -435,7 +440,7 @@ class myMainClass():
                 ["Exercise", "Type", "Time", "Reps", "Rounds", "Set", "", "", ""])
             track = var.workout_table[0][5]
             color1 = (255, 255, 255)
-            color2 = (240, 240, 240)
+            color2 = (220, 220, 220)
             for row in range(len(var.workout_table)):
                 if track == var.workout_table[row][5]:
                     color = color1
@@ -483,7 +488,10 @@ class myMainClass():
                 if var.workout_table[row][5] == var.workout_table[row+1][5] and row != len(var.workout_table)-1:
                     var.workout_table[row], var.workout_table[row+1] = var.workout_table[row+1], var.workout_table[row]
                     self.show_workout()
+                else:
+                    alert(text='Can\'t move', title='Alert', button='OK')
         except Exception as e:
+            alert(text='Can\'t move', title='Alert', button='OK')
             print("Can't Move")
 
     def move_up(self):
@@ -494,7 +502,10 @@ class myMainClass():
                 if var.workout_table[row][5] == var.workout_table[row-1][5] and row != 0:
                     var.workout_table[row], var.workout_table[row-1] = var.workout_table[row-1], var.workout_table[row]
                     self.show_workout()
+                else:
+                    alert(text='Can\'t move', title='Alert', button='OK')
         except Exception as e:
+            alert(text='Can\'t move', title='Alert', button='OK')
             print("Can't Move")
 
     def edit(self):
