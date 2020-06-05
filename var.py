@@ -19,7 +19,9 @@ try:
     logout_icon = resource_path("icons/power_settings_new-24px.svg")
     admin_icon = resource_path("icons/admin_panel_settings-24px.svg")
     save_icon = resource_path("icons/save-24px.svg")
-
+    move_up_icon = resource_path("icons/arrow_upward-24px.svg")
+    move_down_icon = resource_path("icons/arrow_downward-24px.svg")
+    about_icon = resource_path("icons/about.svg")
     # icon path
 
 except Exception as e:
@@ -75,4 +77,3 @@ try:
     printer_ip = config["printer_ip"]
 except Exception as e:
     print("Exeception occured at config loading:{}".format(e))
-

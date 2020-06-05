@@ -1,27 +1,28 @@
-print("App started....")
-import encodings.idna
-from gui import Ui_MainWindow
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
-import sys
-import os
-import var
-from time import sleep
-from threading import Thread
-import json
-import db
-import add_muscle as am
-from pyautogui import alert, password, confirm
-import exercise_info as ei
-import add_exercise as ae
-import workout_info as wi
-import add_to_workout as atw
-import update_workout as uw
-import save_workout as sw
-import remove_muscle_groups as rmg
-import edit_exercise as ee
-from escpos.printer import Network
 import datetime
+from escpos.printer import Network
+import edit_exercise as ee
+import remove_muscle_groups as rmg
+import save_workout as sw
+import update_workout as uw
+import add_to_workout as atw
+import workout_info as wi
+import add_exercise as ae
+import exercise_info as ei
+from pyautogui import alert, password, confirm
+import add_muscle as am
+import db
+import json
+from threading import Thread
+from time import sleep
+import var
+import os
+import sys
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
+from PyQt5 import QtCore, QtGui, QtWidgets
+from gui import Ui_MainWindow
+import encodings.idna
+print("App started....")
+
 
 class MyGui(Ui_MainWindow, QtWidgets.QWidget):
     def __init__(self, mainWindow):
@@ -29,7 +30,9 @@ class MyGui(Ui_MainWindow, QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self)
         self.setupUi(mainWindow)
 
+
 button_style = var.button_style
+
 
 class myMainClass():
     def __init__(self):
@@ -56,8 +59,10 @@ class myMainClass():
         GUI.pushButton_admin.setIcon(QtGui.QIcon(var.admin_icon))
         GUI.pushButton_preset_workouts.clicked.connect(self.show_preset)
 
-        GUI.tableWidget_workout.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-        GUI.tableWidget_exercise.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+        GUI.tableWidget_workout.setEditTriggers(
+            QtWidgets.QTableWidget.NoEditTriggers)
+        GUI.tableWidget_exercise.setEditTriggers(
+            QtWidgets.QTableWidget.NoEditTriggers)
 
         GUI.pushButton_print.clicked.connect(self.print_workout)
         GUI.pushButton_print.setIcon(QtGui.QIcon(var.print_icon))
@@ -69,8 +74,11 @@ class myMainClass():
         GUI.pushButton_workout_save.clicked.connect(self.save_workout)
         GUI.pushButton_workout_save.setIcon(QtGui.QIcon(var.save_icon))
 
-        GUI.pushButton_remove_muscle_groups.clicked.connect(self.remove_muscle_groups)
-        GUI.pushButton_remove_muscle_groups.setIcon(QtGui.QIcon(var.delete_icon))
+        GUI.pushButton_remove_muscle_groups.clicked.connect(
+            self.remove_muscle_groups)
+        GUI.pushButton_remove_muscle_groups.setIcon(
+            QtGui.QIcon(var.delete_icon))
+        GUI.pushButton_about.setIcon(QtGui.QIcon(var.about_icon))
 
     def remove_muscle_groups(self):
         rmg.main()
@@ -89,7 +97,8 @@ class myMainClass():
         self.show_preset()
 
     def workout_clear(self):
-        result = confirm(text='Are you sure?', title='Clear Workout Table', buttons=['OK', 'Cancel'])
+        result = confirm(text='Are you sure?',
+                         title='Clear Workout Table', buttons=['OK', 'Cancel'])
         if result == "OK":
             GUI.tableWidget_workout.setRowCount(0)
             var.workout_table = list()
@@ -117,24 +126,26 @@ class myMainClass():
             GUI.label_table_1.setText("Preset Workouts")
             result = sorted(result, key=len)
 
-            for row in range(0,len(result)):
-                GUI.tableWidget_exercise.setItem(row,0, QTableWidgetItem(str(result[row])))
+            for row in range(0, len(result)):
+                GUI.tableWidget_exercise.setItem(
+                    row, 0, QTableWidgetItem(str(result[row])))
                 button_info = QtWidgets.QPushButton('Info')
                 button_info.setStyleSheet(button_style)
                 button_info.clicked.connect(self.show_workout_info)
                 button_info.setIcon(QtGui.QIcon(var.info_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,1,button_info)
+                GUI.tableWidget_exercise.setCellWidget(row, 1, button_info)
                 button_add = QtWidgets.QPushButton('Add')
                 button_add.setStyleSheet(button_style)
                 button_add.clicked.connect(self.add_preset_to_workout)
                 button_add.setIcon(QtGui.QIcon(var.add_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,2,button_add)
+                GUI.tableWidget_exercise.setCellWidget(row, 2, button_add)
                 if var.admin_mode == True:
                     button_remove = QtWidgets.QPushButton('Delete')
                     button_remove.setStyleSheet(button_style)
                     button_remove.clicked.connect(self.remove_workout)
                     button_remove.setIcon(QtGui.QIcon(var.delete_icon))
-                    GUI.tableWidget_exercise.setCellWidget(row,3,button_remove)
+                    GUI.tableWidget_exercise.setCellWidget(
+                        row, 3, button_remove)
                 GUI.tableWidget_exercise.resizeColumnsToContents()
         except Exception as e:
             print("error at show_preset table - {}".format(e))
@@ -143,7 +154,8 @@ class myMainClass():
         try:
             row, column = self.get_index_of_button(GUI.tableWidget_exercise)
             name = GUI.tableWidget_exercise.item(row, 0).text()
-            result = confirm(text='Are you sure?', title='Delete Workout', buttons=['OK', 'Cancel'])
+            result = confirm(text='Are you sure?',
+                             title='Delete Workout', buttons=['OK', 'Cancel'])
             if result == "OK":
                 conn = db.DB()
                 conn.remove_workout(name)
@@ -158,21 +170,25 @@ class myMainClass():
         try:
             row, column = self.get_index_of_button(GUI.tableWidget_exercise)
             name = GUI.tableWidget_exercise.item(row, 0).text()
-            result = confirm(text='This will reset workout table.\nAre you sure?', title='Add new workout', buttons=['OK', 'Cancel'])
+            result = confirm(text='This will reset workout table.\nAre you sure?',
+                             title='Add new workout', buttons=['OK', 'Cancel'])
             if result == "OK":
                 conn = db.DB()
-                exercise_name, info, w_sets, types, calories, exercise_time, workout_time, reps, rounds = conn.fetch_workout_info(name)
+                exercise_name, info, w_sets, types, calories, exercise_time, workout_time, reps, rounds = conn.fetch_workout_info(
+                    name)
                 var.workout_table = list()
                 for count in range(len(w_sets)):
                     # if types[count] == "time":
-                    temp = [exercise_name[count], types[count], workout_time[count], reps[count], rounds[count], "Set {}".format(w_sets[count])]
+                    temp = [exercise_name[count], types[count], workout_time[count],
+                            reps[count], rounds[count], "Set {}".format(w_sets[count])]
                     # else:
                     #     temp = [exercise_name[count], types[count], reps[count], rounds[count], "Set {}".format(w_sets[count])]
 
                     if len(var.workout_table) == 0 and len(var.workout_table) == 1:
                         var.workout_table.append(temp)
                     else:
-                        sets = [var.workout_table[i][5] for i in range(len(var.workout_table))]
+                        sets = [var.workout_table[i][5]
+                                for i in range(len(var.workout_table))]
                         try:
                             index = len(sets) - sets[::-1].index(temp[5])
                         except:
@@ -181,8 +197,9 @@ class myMainClass():
                         if index == -1:
                             var.workout_table.append(temp)
                         else:
-                            var.workout_table.insert(index,temp)
-                sets = [var.workout_table[i][5] for i in range(len(var.workout_table))]
+                            var.workout_table.insert(index, temp)
+                sets = [var.workout_table[i][5]
+                        for i in range(len(var.workout_table))]
                 GUI.spinBox_set.setValue(len(list(set(sets))))
                 self.show_workout()
         except Exception as e:
@@ -225,7 +242,8 @@ class myMainClass():
 
     def check_password(self):
         GUI.pushButton_admin.setEnabled(False)
-        admin_password = password(text='enter admin password', title='Password', default='', mask='*')
+        admin_password = password(
+            text='enter admin password', title='Password', default='', mask='*')
 
         if admin_password == var.admin_password:
             alert(text='Logged in...', title='Alert', button='OK')
@@ -254,29 +272,29 @@ class myMainClass():
             GUI.tableWidget_exercise.setColumnCount(3)
             GUI.label_table_1.setText("Search result for: {}".format(keyword))
             result = sorted(result, key=len)
-
-
-            for row in range(0,len(result)):
-                GUI.tableWidget_exercise.setItem(row,0, QTableWidgetItem(str(result[row])))
+            for row in range(0, len(result)):
+                GUI.tableWidget_exercise.setItem(
+                    row, 0, QTableWidgetItem(str(result[row])))
                 button_info = QtWidgets.QPushButton('Info')
                 button_info.clicked.connect(self.show_info)
                 button_info.setIcon(QtGui.QIcon(var.info_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,1,button_info)
+                GUI.tableWidget_exercise.setCellWidget(row, 1, button_info)
                 button_add = QtWidgets.QPushButton('Add')
                 button_add.clicked.connect(self.add_exercise_to_workout)
                 button_add.setIcon(QtGui.QIcon(var.add_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,2,button_add)
+                GUI.tableWidget_exercise.setCellWidget(row, 2, button_add)
                 if var.admin_mode == True:
                     button_remove = QtWidgets.QPushButton('Delete')
                     button_remove.setStyleSheet(button_style)
                     button_remove.clicked.connect(self.remove_exercise)
                     button_remove.setIcon(QtGui.QIcon(var.delete_icon))
-                    GUI.tableWidget_exercise.setCellWidget(row,4,button_remove)
+                    GUI.tableWidget_exercise.setCellWidget(
+                        row, 4, button_remove)
                     button_edit = QtWidgets.QPushButton(' Edit ')
                     button_edit.setStyleSheet(button_style)
                     button_edit.clicked.connect(self.edit_exercise)
                     button_edit.setIcon(QtGui.QIcon(var.edit_icon))
-                    GUI.tableWidget_exercise.setCellWidget(row,3,button_edit)
+                    GUI.tableWidget_exercise.setCellWidget(row, 3, button_edit)
                 GUI.tableWidget_exercise.resizeColumnsToContents()
         except Exception as e:
             print("error at show_eercise table - {}".format(e))
@@ -300,33 +318,35 @@ class myMainClass():
                 GUI.tableWidget_exercise.setColumnCount(5)
             else:
                 GUI.tableWidget_exercise.setColumnCount(3)
-            GUI.label_table_1.setText("Exercise for: {}".format(GUI.comboBox_exercise.currentText()))
-            # result = sorted(result, key=len)
+            GUI.label_table_1.setText("Exercise for: {}".format(
+                GUI.comboBox_exercise.currentText()))
             result.sort()
 
-            for row in range(0,len(result)):
-                GUI.tableWidget_exercise.setItem(row,0, QTableWidgetItem(str(result[row])))
+            for row in range(0, len(result)):
+                GUI.tableWidget_exercise.setItem(
+                    row, 0, QTableWidgetItem(str(result[row])))
                 button_info = QtWidgets.QPushButton('Info')
                 button_info.clicked.connect(self.show_info)
                 button_info.setStyleSheet(button_style)
                 button_info.setIcon(QtGui.QIcon(var.info_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,1,button_info)
+                GUI.tableWidget_exercise.setCellWidget(row, 1, button_info)
                 button_add = QtWidgets.QPushButton('Add')
                 button_add.setStyleSheet(button_style)
                 button_add.clicked.connect(self.add_exercise_to_workout)
                 button_add.setIcon(QtGui.QIcon(var.add_icon))
-                GUI.tableWidget_exercise.setCellWidget(row,2,button_add)
+                GUI.tableWidget_exercise.setCellWidget(row, 2, button_add)
                 if var.admin_mode == True:
                     button_remove = QtWidgets.QPushButton('Delete')
                     button_remove.setStyleSheet(button_style)
                     button_remove.clicked.connect(self.remove_exercise)
                     button_remove.setIcon(QtGui.QIcon(var.delete_icon))
-                    GUI.tableWidget_exercise.setCellWidget(row,4,button_remove)
+                    GUI.tableWidget_exercise.setCellWidget(
+                        row, 4, button_remove)
                     button_edit = QtWidgets.QPushButton(' Edit ')
                     button_edit.setStyleSheet(button_style)
                     button_edit.clicked.connect(self.edit_exercise)
                     button_edit.setIcon(QtGui.QIcon(var.edit_icon))
-                    GUI.tableWidget_exercise.setCellWidget(row,3,button_edit)
+                    GUI.tableWidget_exercise.setCellWidget(row, 3, button_edit)
                 GUI.tableWidget_exercise.resizeColumnsToContents()
         except Exception as e:
             print("error at show_exercise table - {}".format(e))
@@ -341,7 +361,8 @@ class myMainClass():
         try:
             row, column = self.get_index_of_button(GUI.tableWidget_exercise)
             name = GUI.tableWidget_exercise.item(row, 0).text()
-            result = confirm(text='Are you sure?', title='Delete Exercise', buttons=['OK', 'Cancel'])
+            result = confirm(text='Are you sure?',
+                             title='Delete Exercise', buttons=['OK', 'Cancel'])
             if result == "OK":
                 conn = db.DB()
                 conn.remove_exercise(name)
@@ -365,30 +386,43 @@ class myMainClass():
         self.show_workout()
 
     def show_workout(self):
-        sets = [ var.workout_table[i][5] for i in range(len(var.workout_table))]
+        sets = [var.workout_table[i][5] for i in range(len(var.workout_table))]
         sets = list(set(sets))
 
-        if len(sets)==1:
+        if len(sets) == 1:
             GUI.tableWidget_workout.setRowCount(0)
             GUI.tableWidget_workout.setRowCount(len(var.workout_table))
-            GUI.tableWidget_workout.setColumnCount(6)
-            GUI.tableWidget_workout.setHorizontalHeaderLabels(["Exercise", "Type", "Time", "Reps", "Rounds", ""])
+            GUI.tableWidget_workout.setColumnCount(8)
+            GUI.tableWidget_workout.setHorizontalHeaderLabels(
+                ["Exercise", "Type", "Time", "Reps", "Rounds", "", "", ""])
             for row in range(len(var.workout_table)):
                 for col in range(5):
                     if var.workout_table[row][col] != 0:
-                        GUI.tableWidget_workout.setItem(row,col, QTableWidgetItem(str("  "+str(var.workout_table[row][col]))+" "))
+                        GUI.tableWidget_workout.setItem(row, col, QTableWidgetItem(
+                            str("  "+str(var.workout_table[row][col]))+" "))
                     else:
-                        GUI.tableWidget_workout.setItem(row,col, QTableWidgetItem(str("  ")))
+                        GUI.tableWidget_workout.setItem(
+                            row, col, QTableWidgetItem(str("  ")))
                     GUI.tableWidget_workout.resizeColumnsToContents()
                 button_edit = QtWidgets.QPushButton(' Edit ')
                 button_edit.setStyleSheet(button_style)
                 button_edit.clicked.connect(self.edit)
                 button_edit.setIcon(QtGui.QIcon(var.edit_icon))
-                GUI.tableWidget_workout.setCellWidget(row,5,button_edit)
+                GUI.tableWidget_workout.setCellWidget(row, 5, button_edit)
+                button_up = QtWidgets.QPushButton('')
+                button_up.setStyleSheet(button_style)
+                button_up.clicked.connect(self.move_up)
+                button_up.setIcon(QtGui.QIcon(var.move_up_icon))
+                GUI.tableWidget_workout.setCellWidget(row, 6, button_up)
+                button_down = QtWidgets.QPushButton('')
+                button_down.setStyleSheet(button_style)
+                button_down.clicked.connect(self.move_down)
+                button_down.setIcon(QtGui.QIcon(var.move_down_icon))
+                GUI.tableWidget_workout.setCellWidget(row, 7, button_down)
                 GUI.tableWidget_workout.resizeColumnsToContents()
                 GUI.tableWidget_workout.showGrid()
 
-        elif len(sets)>1:
+        elif len(sets) > 1:
             # for index, item in enumerate(var.workout_table):
             #     for index1, item1 in enumerate(var.workout_table):
             #         if var.workout_table[index][5]<var.workout_table[index1][5]:
@@ -396,11 +430,12 @@ class myMainClass():
 
             GUI.tableWidget_workout.setRowCount(0)
             GUI.tableWidget_workout.setRowCount(len(var.workout_table))
-            GUI.tableWidget_workout.setColumnCount(7)
-            GUI.tableWidget_workout.setHorizontalHeaderLabels(["Exercise", "Type", "Time", "Reps", "Rounds", "Set", ""])
+            GUI.tableWidget_workout.setColumnCount(9)
+            GUI.tableWidget_workout.setHorizontalHeaderLabels(
+                ["Exercise", "Type", "Time", "Reps", "Rounds", "Set", "", "", ""])
             track = var.workout_table[0][5]
-            color1 = (255,255,255)
-            color2 = (240,240,240)
+            color1 = (255, 255, 255)
+            color2 = (240, 240, 240)
             for row in range(len(var.workout_table)):
                 if track == var.workout_table[row][5]:
                     color = color1
@@ -410,22 +445,57 @@ class myMainClass():
                     color1, color2 = color2, color1
                 for col in range(6):
                     if var.workout_table[row][col] != 0:
-                        GUI.tableWidget_workout.setItem(row,col, QTableWidgetItem(str("  "+str(var.workout_table[row][col]))+" "))
+                        GUI.tableWidget_workout.setItem(row, col, QTableWidgetItem(
+                            str("  "+str(var.workout_table[row][col]))+" "))
                     else:
-                        GUI.tableWidget_workout.setItem(row,col, QTableWidgetItem(str("  ")))
+                        GUI.tableWidget_workout.setItem(
+                            row, col, QTableWidgetItem(str("  ")))
                     GUI.tableWidget_workout.resizeColumnsToContents()
-                    GUI.tableWidget_workout.item(row,col).setBackground(QtGui.QColor(color[0], color[1], color[2]))
+                    GUI.tableWidget_workout.item(row, col).setBackground(
+                        QtGui.QColor(color[0], color[1], color[2]))
 
                 button_edit = QtWidgets.QPushButton(' Edit ')
                 button_edit.setStyleSheet(button_style)
                 button_edit.clicked.connect(self.edit)
                 button_edit.setIcon(QtGui.QIcon(var.edit_icon))
-                GUI.tableWidget_workout.setCellWidget(row,6,button_edit)
+                GUI.tableWidget_workout.setCellWidget(row, 6, button_edit)
+                button_up = QtWidgets.QPushButton('')
+                button_up.setStyleSheet(button_style)
+                button_up.clicked.connect(self.move_up)
+                button_up.setIcon(QtGui.QIcon(var.move_up_icon))
+                GUI.tableWidget_workout.setCellWidget(row, 7, button_up)
+                button_down = QtWidgets.QPushButton('')
+                button_down.setStyleSheet(button_style)
+                button_down.clicked.connect(self.move_down)
+                button_down.setIcon(QtGui.QIcon(var.move_down_icon))
+                GUI.tableWidget_workout.setCellWidget(row, 8, button_down)
                 GUI.tableWidget_workout.resizeColumnsToContents()
                 GUI.tableWidget_workout.showGrid()
 
         else:
             GUI.tableWidget_workout.setRowCount(0)
+
+    def move_down(self):
+        print("down")
+        try:
+            if len(var.workout_table) > 1:
+                row, column = self.get_index_of_button(GUI.tableWidget_workout)
+                if var.workout_table[row][5] == var.workout_table[row+1][5] and row != len(var.workout_table)-1:
+                    var.workout_table[row], var.workout_table[row+1] = var.workout_table[row+1], var.workout_table[row]
+                    self.show_workout()
+        except Exception as e:
+            print("Can't Move")
+
+    def move_up(self):
+        print("up")
+        try:
+            if len(var.workout_table) > 1:
+                row, column = self.get_index_of_button(GUI.tableWidget_workout)
+                if var.workout_table[row][5] == var.workout_table[row-1][5] and row != 0:
+                    var.workout_table[row], var.workout_table[row-1] = var.workout_table[row-1], var.workout_table[row]
+                    self.show_workout()
+        except Exception as e:
+            print("Can't Move")
 
     def edit(self):
         row, column = self.get_index_of_button(GUI.tableWidget_workout)
@@ -450,10 +520,12 @@ class myMainClass():
         ae.main()
         self.show_exercises()
 
+
 def add_muscle():
     am.main()
     Thread(target=show_muscle_groups, daemon=True).start()
     print("done")
+
 
 def show_muscle_groups():
     try:
@@ -462,7 +534,7 @@ def show_muscle_groups():
         result = list(result)
         print(result)
         var.muscle_groups = [] + result
-        result.insert(0,"ALL")
+        result.insert(0, "ALL")
         con.close()
         print(result)
         GUI.comboBox_exercise.clear()
@@ -470,6 +542,7 @@ def show_muscle_groups():
 
     except Exception as e:
         print("error at show_muscle_groups - {}".format(e))
+
 
 def print_workout():
     try:
@@ -486,7 +559,7 @@ def print_workout():
         rounds = list()
         for index, item in enumerate(var.workout_table):
             for index1, item1 in enumerate(var.workout_table):
-                if var.workout_table[index][5]<var.workout_table[index1][5]:
+                if var.workout_table[index][5] < var.workout_table[index1][5]:
                     var.workout_table[index], var.workout_table[index1] = var.workout_table[index1], var.workout_table[index]
         for item in var.workout_table:
             exercise_name.append(item[0])
@@ -500,12 +573,14 @@ def print_workout():
             exercise_time.append(temp1)
         conn.close()
 
-        label = make_label(exercise_name, sets, types, calories, exercise_time, workout_time, reps, rounds)
+        label = make_label(exercise_name, sets, types, calories,
+                           exercise_time, workout_time, reps, rounds)
         for item in label.label().split("\n"):
             print(item)
 
         for index in range(label_count):
-            printer = Network(var.printer_ip, profile="TM-T88V") #Printer IP Address
+            # Printer IP Address
+            printer = Network(var.printer_ip, profile="TM-T88V")
             printer.image("logo.png")
             for item in label.label().split("\n"):
                 printer.text(item+"\n")
@@ -513,6 +588,7 @@ def print_workout():
             printer.close()
     except Exception as e:
         print("Error at print_workout : {}".format(e))
+
 
 class make_label():
     def __init__(self, exercise_name, sets, types, calories, exercise_time, workout_time, reps, rounds):
@@ -530,23 +606,26 @@ class make_label():
         try:
             for count in range(len(self.exercise_name)):
                 if self.types[count] == "Time":
-                    calories += (self.calories[count] * self.rounds[count] * (self.workout_time[count]/self.exercise_time[count]))
+                    calories += (self.calories[count] * self.rounds[count] * (
+                        self.workout_time[count]/self.exercise_time[count]))
                 else:
-                    calories += (self.calories[count] * self.rounds[count] * self.reps[count])
+                    calories += (self.calories[count] *
+                                 self.rounds[count] * self.reps[count])
         except:
             pass
 
         time = 0
         for count in range(len(self.exercise_name)):
             if self.types[count] == "Reps":
-                time += (self.reps[count] * self.rounds[count] * self.exercise_time[count])
+                time += (self.reps[count] * self.rounds[count]
+                         * self.exercise_time[count])
             else:
                 time += (self.workout_time[count] * self.rounds[count])
+        left = """\n\nCalories burned: {:.2f}\nEstimated workout time: {:.2f} min\n\nYou Can Do It!""".format(
+            calories, time/60)
 
-
-        left = """\n\nCalories burned: {:.2f}\nEstimated workout time: {:.2f} min\n\nYou Can Do It!""".format(calories, time/60)
-
-        right = """W O R K O U T   G E N E R A T O R\n\nDate:{}\n\n\n""".format(datetime.datetime.today().strftime('%d-%m-%Y'))
+        right = """W O R K O U T   G E N E R A T O R\n\nDate:{}\n\n\n""".format(
+            datetime.datetime.today().strftime('%d-%m-%Y'))
         if len(set(self.sets)) > 1:
             sets = list(set(self.sets))
             sets.sort()
@@ -557,11 +636,14 @@ class make_label():
                     if w_set == item:
                         right += name
                         if v_type == "Time":
-                            right += "  {} seconds\n".format(str(time)).rjust(40 - len(name))
+                            right += "  {} seconds\n".format(
+                                str(time)).rjust(40 - len(name))
                         elif v_type == "EMOM":
-                            right += "  {} reps in {} seconds\n".format(reps, time).rjust(40 - len(name))
+                            right += "  {} reps in {} seconds\n".format(
+                                reps, time).rjust(40 - len(name))
                         else:
-                            right += "  {} reps\n".format(str(reps)).rjust(40 - len(name))
+                            right += "  {} reps\n".format(
+                                str(reps)).rjust(40 - len(name))
                         round = rounds
                 right += "\nRepeat: " + str(round) + " rounds\n"
                 if not index == len(sets)-1:
@@ -570,13 +652,17 @@ class make_label():
             for name, v_type, time, reps, round in zip(self.exercise_name, self.types, self.workout_time, self.reps, self.rounds):
                 right += name
                 if v_type == "Time":
-                    right += "  {} seconds {} rounds\n".format(str(time), str(round)).rjust(40 - len(name))
+                    right += "  {} seconds {} rounds\n".format(
+                        str(time), str(round)).rjust(40 - len(name))
                 elif v_type == "EMOM":
-                    right += "  {} reps in {} seconds {} rounds\n".format(reps, time, round).rjust(40 - len(name))
+                    right += "  {} reps in {} seconds {} rounds\n".format(
+                        reps, time, round).rjust(40 - len(name))
                 else:
-                    right += "  {} reps {} rounds\n".format(str(reps), str(round)).rjust(40 - len(name))
+                    right += "  {} reps {} rounds\n".format(
+                        str(reps), str(round)).rjust(40 - len(name))
 
         return right + left
+
 
 if __name__ == '__main__':
 
@@ -593,7 +679,8 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
 
-    mainWindow.setWindowFlags(mainWindow.windowFlags() | QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowSystemMenuHint)
+    mainWindow.setWindowFlags(mainWindow.windowFlags(
+    ) | QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowSystemMenuHint)
 
     GUI = MyGui(mainWindow)
     # mainWindow.showMaximized()
