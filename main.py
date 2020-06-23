@@ -390,9 +390,31 @@ class myMainClass():
         atw.main(name)
         self.show_workout()
 
+    def keeping_amrap(self, d_set):
+        for index, item in enumerate(var.workout_table):
+            print(item, d_set)
+            if d_set == item[5] and item[1] != "AMRAP":
+                for item1 in var.workout_table:
+                    if item1[5] == d_set and item1[1] == "AMRAP":
+                        print(item1)
+                        var.workout_table[index][2] = item1[2]
+                        var.workout_table[index][3] = item1[3]
+                        print("here2")
+                        break
+                var.workout_table[index][1] = "AMRAP"
+                var.workout_table[index][4] = 0
+                print("here1")
+
     def show_workout(self):
         sets = [var.workout_table[i][5] for i in range(len(var.workout_table))]
         sets = list(set(sets))
+        # [self.name, "reps", 0, 15, 3, v_set]
+        d_set = list()
+        for index, item in enumerate(var.workout_table):
+            if item[1] == "AMRAP":
+                if item[5] not in d_set:
+                    self.keeping_amrap(item[5])
+                    d_set.append(item[5])
 
         if len(sets) == 1:
             GUI.tableWidget_workout.setRowCount(0)
@@ -619,6 +641,8 @@ class make_label():
                 if self.types[count] == "Time":
                     calories += (self.calories[count] * self.rounds[count] * (
                         self.workout_time[count]/self.exercise_time[count]))
+                elif self.types[count] == "AMRAP":
+                    pass
                 else:
                     calories += (self.calories[count] *
                                  self.rounds[count] * self.reps[count])
@@ -630,6 +654,8 @@ class make_label():
             if self.types[count] == "Reps":
                 time += (self.reps[count] * self.rounds[count]
                          * self.exercise_time[count])
+            elif self.types[count] == "AMRAP":
+                pass
             else:
                 time += (self.workout_time[count] * self.rounds[count])
         left = """\n\nCalories burned: {:.2f}\nEstimated workout time: {:.2f} min\n\nYou Can Do It!""".format(
@@ -640,8 +666,19 @@ class make_label():
         if len(set(self.sets)) > 1:
             sets = list(set(self.sets))
             sets.sort()
+            flag_amrap = False
             for index, item in enumerate(sets):
-                right += str(item) + "\n\n"
+                t_set = str(item)
+                for item1, item2 in zip(self.types, self.sets):
+                    if item2 == item:
+                        if item1 == "AMRAP":
+                            right += t_set +"(AMRAP)"+ "\n\n"
+                            flag_amrap = True
+                            break
+                        else:
+                            right += t_set + "\n\n"
+                            flag_amrap = False
+                            break
 
                 for name, v_type, time, reps, w_set, rounds in zip(self.exercise_name, self.types, self.workout_time, self.reps, self.sets, self.rounds):
                     if w_set == item:
@@ -652,11 +689,17 @@ class make_label():
                         elif v_type == "EMOM":
                             right += "  {} reps in {} seconds\n".format(
                                 reps, time).rjust(40 - len(name))
+                        elif v_type == "AMRAP":
+                            right += "  {} reps\n".format(reps).rjust(40 - len(name))
                         else:
                             right += "  {} reps\n".format(
                                 str(reps)).rjust(40 - len(name))
                         round = rounds
-                right += "\nRepeat: " + str(round) + " rounds\n"
+                        total_time = time
+                if flag_amrap == True:
+                    right += "\nRepeat for {} minutes.\n".format(total_time)
+                else:
+                    right += "\nRepeat: " + str(round) + " rounds.\n"
                 if not index == len(sets)-1:
                     right += "________________________________\n\n"
         else:
@@ -668,9 +711,14 @@ class make_label():
                 elif v_type == "EMOM":
                     right += "  {} reps in {} seconds {} rounds\n".format(
                         reps, time, round).rjust(40 - len(name))
+                elif v_type == "AMRAP":
+                    right += "  {} reps\n".format(reps).rjust(40 - len(name))
                 else:
                     right += "  {} reps {} rounds\n".format(
                         str(reps), str(round)).rjust(40 - len(name))
+                total_time = time
+            if flag_amrap == True:
+                right += "\nRepeat for {} minutes.\n".format(total_time)
 
         return right + left
 

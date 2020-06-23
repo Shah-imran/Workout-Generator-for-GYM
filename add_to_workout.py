@@ -96,12 +96,12 @@ class Ui_Dialog(object):
             sets = list(set(sets))
             if len(sets)>1:
                 for index, item in enumerate(var.workout_table):
-                    if item[5] == temp[5]:
+                    if item[5] == temp[5] and item[1] != "AMRAP":
                         var.workout_table[index][4] = temp[4]
                 if len(sets)==2:
                     key = var.workout_table[0][5]
                     for index, item in enumerate(var.workout_table):
-                        if key == item[5]:
+                        if key == item[5] and item[1] != "AMRAP":
                             var.workout_table[index][4] = var.workout_table[0][4]
         except Exception as e:
             print("Error at {}".format(e))

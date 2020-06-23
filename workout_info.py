@@ -55,6 +55,8 @@ class Ui_Dialog(object):
             for count in range(len(self.exercise_name)):
                 if self.types[count] == "Time":
                     calories += (self.calories[count] * self.rounds[count] * (self.workout_time[count]/self.exercise_time[count]))
+                elif self.types[count] == "AMRAP":
+                    pass
                 else:
                     calories += (self.calories[count] * self.rounds[count] * self.reps[count])
         except:
@@ -64,6 +66,8 @@ class Ui_Dialog(object):
         for count in range(len(self.exercise_name)):
             if self.types[count] == "Reps":
                 time += (self.reps[count] * self.rounds[count] * self.exercise_time[count])
+            elif self.types[count] == "AMRAP":
+                pass
             else:
                 time += (self.workout_time[count] * self.rounds[count])
 
@@ -74,8 +78,19 @@ class Ui_Dialog(object):
         right = """Exercises:\n\n"""
         if len(set(self.sets)) > 1:
             sets = list(set(self.sets))
+            flag_amrap = False
             for item in sets:
-                right += "Set " + str(item) + "\n\n"
+                t_set = "Set " + str(item)
+                for item1, item2 in zip(self.types, self.sets):
+                    if item2 == item:
+                        if item1 == "AMRAP":
+                            right += t_set +"(AMRAP)"+ "\n\n"
+                            flag_amrap = True
+                            break
+                        else:
+                            right += t_set + "\n\n"
+                            flag_amrap = False
+                            break
 
                 for name, v_type, time, reps, w_set, rounds in zip(self.exercise_name, self.types, self.workout_time, self.reps, self.sets, self.rounds):
                     if w_set == item:
@@ -84,10 +99,17 @@ class Ui_Dialog(object):
                             right += "  {} seconds\n".format(str(time)).rjust(30 - len(name))
                         elif v_type == "EMOM":
                             right += "  {} reps in {} seconds\n".format(reps, time).rjust(40 - len(name))
+                        elif v_type == "AMRAP":
+                            right += "  {} reps\n".format(reps).rjust(40 - len(name))
                         else:
                             right += "  {} reps\n".format(str(reps)).rjust(30 - len(name))
                         round = rounds
-                right += "\nRepeat: " + str(round) + " rounds\n"
+                        total_time = time
+
+                if flag_amrap == True:
+                    right += "\nRepeat for {} minutes.\n".format(total_time)
+                else:
+                    right += "\nRepeat: " + str(round) + " rounds.\n"
                 right += "________________________________\n\n"
         else:
             for name, v_type, time, reps, round in zip(self.exercise_name, self.types, self.workout_time, self.reps, self.rounds):
@@ -96,8 +118,13 @@ class Ui_Dialog(object):
                     right += "  {} seconds {} rounds\n".format(str(time), str(round)).rjust(30 - len(name))
                 elif v_type == "EMOM":
                     right += "  {} reps in {} seconds {} rounds\n".format(reps, time, round).rjust(40 - len(name))
+                elif v_type == "AMRAP":
+                    right += "  {} reps\n".format(reps).rjust(40 - len(name))
                 else:
                     right += "  {} reps {} rounds\n".format(str(reps), str(round)).rjust(30 - len(name))
+                total_time = time
+            if flag_amrap == True:
+                right += "\nRepeat for {} minutes.\n".format(total_time)
         print(right)
         self.textBrowser_right.setText(_translate("Dialog", "{}".format(right)))
         # for item in right.split("\n"):
