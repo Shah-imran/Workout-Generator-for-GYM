@@ -129,8 +129,8 @@ class myMainClass():
             else:
                 GUI.tableWidget_exercise.setColumnCount(3)
             GUI.label_table_1.setText("Preset Workouts")
-            result = sorted(result, key=len)
-
+            # result = sorted(result, key=len)
+            result.sort()
             for row in range(0, len(result)):
                 GUI.tableWidget_exercise.setItem(
                     row, 0, QTableWidgetItem(str(result[row])))
@@ -399,11 +399,9 @@ class myMainClass():
                         print(item1)
                         var.workout_table[index][2] = item1[2]
                         var.workout_table[index][3] = item1[3]
-                        print("here2")
                         break
                 var.workout_table[index][1] = "AMRAP"
                 var.workout_table[index][4] = 0
-                print("here1")
 
     def show_workout(self):
         sets = [var.workout_table[i][5] for i in range(len(var.workout_table))]
@@ -700,6 +698,7 @@ class make_label():
                     right += "\nRepeat for {} minutes.\n".format(total_time)
                 else:
                     right += "\nRepeat: " + str(round) + " rounds.\n"
+
                 if not index == len(sets)-1:
                     right += "________________________________\n\n"
         else:
@@ -712,13 +711,10 @@ class make_label():
                     right += "  {} reps in {} seconds {} rounds\n".format(
                         reps, time, round).rjust(40 - len(name))
                 elif v_type == "AMRAP":
-                    right += "  {} reps\n".format(reps).rjust(40 - len(name))
+                    right += "  {} reps for {} min\n".format(reps, time).rjust(40 - len(name))
                 else:
                     right += "  {} reps {} rounds\n".format(
                         str(reps), str(round)).rjust(40 - len(name))
-                total_time = time
-            if flag_amrap == True:
-                right += "\nRepeat for {} minutes.\n".format(total_time)
 
         return right + left
 

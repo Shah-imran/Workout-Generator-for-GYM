@@ -119,12 +119,10 @@ class Ui_Dialog(object):
                 elif v_type == "EMOM":
                     right += "  {} reps in {} seconds {} rounds\n".format(reps, time, round).rjust(40 - len(name))
                 elif v_type == "AMRAP":
-                    right += "  {} reps\n".format(reps).rjust(40 - len(name))
+                    right += "  {} reps for {} min\n".format(reps, time).rjust(40 - len(name))
                 else:
                     right += "  {} reps {} rounds\n".format(str(reps), str(round)).rjust(30 - len(name))
-                total_time = time
-            if flag_amrap == True:
-                right += "\nRepeat for {} minutes.\n".format(total_time)
+
         print(right)
         self.textBrowser_right.setText(_translate("Dialog", "{}".format(right)))
         # for item in right.split("\n"):
